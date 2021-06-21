@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Home Budget</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="logBtn_name">Login</string>
+    <string name="hint">Login</string>
+    <string name="logout">Logout</string>
+</resources>
