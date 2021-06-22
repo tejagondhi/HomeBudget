@@ -31,6 +31,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkInte
         drpdown = findViewById(R.id.login_users);
         loginbtn.setOnClickListener(v -> {
             new PreferencesUtil(LoginActivity.this).setPreference(Constants.LOGIN_USER,selectedUser.getPersonId());
+            new PreferencesUtil(LoginActivity.this).setPreference(Constants.USER_NAME,selectedUser.getUserName());
             startActivity(new Intent(LoginActivity.this,MainActivity.class));
             finish();
         });
@@ -48,7 +49,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkInte
         String[] userArray = new String[users.size()];
         int count=0;
         for (User user: users) {
-            userArray[count++]= user.getUsername();
+            userArray[count++]= user.getUserName();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, userArray);

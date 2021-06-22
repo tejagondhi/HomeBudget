@@ -8,3 +8,4 @@ public interface LoginNetworkInterface {
      void onReceived(ArrayList<User> users);
      void onError(String error);
 }
+

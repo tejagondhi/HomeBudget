@@ -4,4 +4,16 @@
     <string name="logBtn_name">Login</string>
     <string name="hint">Login</string>
     <string name="logout">Logout</string>
+    <string name="title_activity_data_entry_acitivity">DataEntryAcitivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="submit">Submit</string>
+    <string name="add_items">Add items</string>
+    <string name="add_sub_category">Add sub category</string>
+    <string name="add_category">Add category</string>
+    <string name="add_shop">Add shop</string>
+    <string name="add_users">Add users</string>
 </resources>

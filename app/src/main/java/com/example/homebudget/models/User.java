@@ -2,7 +2,7 @@ package com.example.homebudget.models;
 
 public class User {
     private String personId;
-    private String username;
+    private String userName;
 
     public User() {
     }
@@ -15,11 +15,11 @@ public class User {
         this.personId = personId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String username) {
+        this.userName = userName;
     }
 }

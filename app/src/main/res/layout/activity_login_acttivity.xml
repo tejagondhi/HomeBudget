@@ -26,7 +26,8 @@
         android:text="@string/logBtn_name"
         android:layout_marginTop="30dp"
         android:layout_below="@id/login_users"
-        android:background="@drawable/login_button_background"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="@drawable/button_ripple_effect"
         android:textColor="@color/black"/>
 
 
