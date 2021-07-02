@@ -15,6 +15,7 @@ import com.example.homebudget.listeners.DataEntryInterface;
 import com.example.homebudget.listeners.MainNetworkInterface;
 import com.example.homebudget.models.Category;
 import com.example.homebudget.models.Items;
+import com.example.homebudget.models.Measure;
 import com.example.homebudget.models.Shop;
 import com.example.homebudget.models.SubCategory;
 import com.example.homebudget.util.HomeNetwork;
@@ -56,12 +57,7 @@ public class DataEntry extends AppCompatActivity implements MainNetworkInterface
         subCategoryList = findViewById(R.id.selectSubCategoryList);
         errorResponse = findViewById(R.id.errorResponse);
         Button submitDataBtn = findViewById(R.id.dataSubmitBtn);
-        submitDataBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitClicked();
-            }
-        });
+        submitDataBtn.setOnClickListener(v -> submitClicked());
         HomeNetwork.getInstance().getSubCategory(this, "0");
         HomeNetwork.getInstance().getCategory(this);
     }
@@ -69,58 +65,53 @@ public class DataEntry extends AppCompatActivity implements MainNetworkInterface
     private void submitClicked() {
         JSONObject request = new JSONObject();
         String urlExtension = "";
-        if(addUsersTxtBox.getText().toString().trim().length()>0){
-            urlExtension=USER_URL_EXTENSION;
+        if (addUsersTxtBox.getText().toString().trim().length() > 0) {
+            urlExtension = USER_URL_EXTENSION;
             try {
-                request.put("userName",addUsersTxtBox.getText().toString().trim());
+                request.put("userName", addUsersTxtBox.getText().toString().trim());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (addShopTxtBox.getText().toString().trim().length() > 0) {
+            urlExtension = SHOP_URL_EXTENSION;
+            try {
+                request.put("shopName", addShopTxtBox.getText().toString().trim());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (addCategoryTxtBox.getText().toString().trim().length() > 0) {
+            urlExtension = CATEGORY_URL_EXTENSION;
+            try {
+                request.put("categoryName", addCategoryTxtBox.getText().toString().trim());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (addSubCatTxtBox.getText().toString().trim().length() > 0) {
+            urlExtension = SUB_CATEGORY_URL_EXTENSION;
+            try {
+                request.put("subCategoryName", addSubCatTxtBox.getText().toString().trim());
+                request.put("categoryId", selectedCategory.getCategoryId());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (addItemsTxtBox.getText().toString().trim().length() > 0) {
+            urlExtension = ITEMS_URL_EXTENSION;
+            try {
+                request.put("itemName", addItemsTxtBox.getText().toString().trim());
+                request.put("subCategoryId", selectedSubCategory.getSubCategoryId());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        else if(addShopTxtBox.getText().toString().trim().length()>0){
-            urlExtension=SHOP_URL_EXTENSION;
-            try {
-                request.put("shopName",addShopTxtBox.getText().toString().trim());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        else if(addCategoryTxtBox.getText().toString().trim().length()>0){
-            urlExtension=CATEGORY_URL_EXTENSION;
-            try {
-                request.put("categoryName",addCategoryTxtBox.getText().toString().trim());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        else if(addSubCatTxtBox.getText().toString().trim().length()>0){
-            urlExtension=SUB_CATEGORY_URL_EXTENSION;
-            try {
-                request.put("subCategoryName",addSubCatTxtBox.getText().toString().trim());
-                request.put("categoryId",selectedCategory.getCategoryId());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        else if(addItemsTxtBox.getText().toString().trim().length()>0){
-            urlExtension=ITEMS_URL_EXTENSION;
-            try {
-                request.put("itemName",addItemsTxtBox.getText().toString().trim());
-                request.put("subCategoryId",selectedSubCategory.getSubCategoryId());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        if(urlExtension.length()>0){
-            post(request,urlExtension);
+        if (urlExtension.length() > 0) {
+            post(request, urlExtension);
         }
 
     }
 
-    private void post(JSONObject request,String urlExtension){
-        HomeNetwork.getInstance().post(this,request,urlExtension);
+    private void post(JSONObject request, String urlExtension) {
+        HomeNetwork.getInstance().post(this, request, urlExtension);
     }
-
 
 
     @Override
@@ -131,9 +122,9 @@ public class DataEntry extends AppCompatActivity implements MainNetworkInterface
     @Override
     public void onCategoryReceived(ArrayList<Category> categories) {
         String[] categoryArray = new String[categories.size()];
-        int count=0;
-        for (Category category: categories) {
-            categoryArray[count++]= category.getCategoryName();
+        int count = 0;
+        for (Category category : categories) {
+            categoryArray[count++] = category.getCategoryName();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -141,7 +132,7 @@ public class DataEntry extends AppCompatActivity implements MainNetworkInterface
         categoryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCategory=categories.get(position);
+                selectedCategory = categories.get(position);
             }
 
             @Override
@@ -154,9 +145,9 @@ public class DataEntry extends AppCompatActivity implements MainNetworkInterface
     @Override
     public void onSubCategoryReceived(ArrayList<SubCategory> subCategories) {
         String[] subCategoryArray = new String[subCategories.size()];
-        int count=0;
-        for (SubCategory subCategory: subCategories) {
-            subCategoryArray[count++]= subCategory.getSubCategoryName();
+        int count = 0;
+        for (SubCategory subCategory : subCategories) {
+            subCategoryArray[count++] = subCategory.getSubCategoryName();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subCategoryArray);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -164,7 +155,7 @@ public class DataEntry extends AppCompatActivity implements MainNetworkInterface
         subCategoryList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedSubCategory=subCategories.get(position);
+                selectedSubCategory = subCategories.get(position);
             }
 
             @Override
@@ -181,6 +172,11 @@ public class DataEntry extends AppCompatActivity implements MainNetworkInterface
 
     @Override
     public void onError(String error) {
+
+    }
+
+    @Override
+    public void onMeasureReceived(ArrayList<Measure> response) {
 
     }
 

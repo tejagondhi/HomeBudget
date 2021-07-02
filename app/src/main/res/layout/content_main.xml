@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:padding="10dp"
+        android:layout_below="@id/listOfShops"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:spinnerMode="dialog"
@@ -36,6 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:padding="10dp"
+        android:layout_below="@id/categoryList"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:spinnerMode="dialog"
@@ -50,23 +52,40 @@
         android:padding="10dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
+        android:layout_below="@id/subCategoryList"
         android:spinnerMode="dialog"
         android:background="@drawable/login_users_background"
         />
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal"
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
-        android:weightSum="3">
-        <ListView
-            android:id="@+id/itemsListView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:textColor="@android:color/white"
-            android:textSize="20sp"
-            />
-    </LinearLayout>
-</LinearLayout>
+        android:layout_below="@id/itemsList"
+        android:textColor="@color/black"
+        android:background="@drawable/button_ripple_effect"
+        android:id="@+id/addItemButton"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/listRecycleView"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@id/addItemButton"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="20dp"/>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/uploadButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:layout_marginEnd="90dp"
+        android:textColor="@color/black"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/button_ripple_effect"
+        />
+</RelativeLayout>

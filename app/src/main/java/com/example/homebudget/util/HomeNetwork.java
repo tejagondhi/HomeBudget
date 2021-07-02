@@ -10,6 +10,7 @@ import com.example.homebudget.listeners.LoginNetworkInterface;
 import com.example.homebudget.listeners.MainNetworkInterface;
 import com.example.homebudget.models.Category;
 import com.example.homebudget.models.Items;
+import com.example.homebudget.models.Measure;
 import com.example.homebudget.models.Shop;
 import com.example.homebudget.models.SubCategory;
 import com.example.homebudget.models.User;
@@ -21,19 +22,21 @@ import java.util.ArrayList;
 public class HomeNetwork {
 
     private static HomeNetwork network;
+
     private HomeNetwork() {
 
     }
-    public static HomeNetwork getInstance(){
-        if(network!=null){
+
+    public static HomeNetwork getInstance() {
+        if (network != null) {
             return network;
         }
         network = new HomeNetwork();
         return network;
     }
 
-    public void getUsers(LoginNetworkInterface loginNetworkInterface){
-        AndroidNetworking.get("http://192.168.1.2:3010/users")
+    public void getUsers(LoginNetworkInterface loginNetworkInterface) {
+        AndroidNetworking.get(Constants.MAIN_URL + "users")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObjectList(User.class, new ParsedRequestListener<ArrayList<User>>() {
@@ -50,8 +53,8 @@ public class HomeNetwork {
                 });
     }
 
-    public void getShops(MainNetworkInterface mainNetworkInterface){
-        AndroidNetworking.get("http://192.168.1.2:3010/shops")
+    public void getShops(MainNetworkInterface mainNetworkInterface) {
+        AndroidNetworking.get(Constants.MAIN_URL + "shops")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObjectList(Shop.class, new ParsedRequestListener<ArrayList<Shop>>() {
@@ -68,8 +71,8 @@ public class HomeNetwork {
                 });
     }
 
-    public void getCategory(MainNetworkInterface mainNetworkInterface){
-        AndroidNetworking.get("http://192.168.1.2:3010/categories")
+    public void getCategory(MainNetworkInterface mainNetworkInterface) {
+        AndroidNetworking.get(Constants.MAIN_URL + "categories")
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObjectList(Category.class, new ParsedRequestListener<ArrayList<Category>>() {
@@ -86,8 +89,8 @@ public class HomeNetwork {
                 });
     }
 
-    public void getSubCategory(MainNetworkInterface mainNetworkInterface, String id){
-        AndroidNetworking.get("http://192.168.1.2:3010/subCategories/"+id)
+    public void getSubCategory(MainNetworkInterface mainNetworkInterface, String id) {
+        AndroidNetworking.get(Constants.MAIN_URL + "subCategories/" + id)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObjectList(SubCategory.class, new ParsedRequestListener<ArrayList<SubCategory>>() {
@@ -104,8 +107,8 @@ public class HomeNetwork {
                 });
     }
 
-    public void getItems(MainNetworkInterface mainNetworkInterface, String id){
-        AndroidNetworking.get("http://192.168.1.2:3010/items/"+id)
+    public void getItems(MainNetworkInterface mainNetworkInterface, String id) {
+        AndroidNetworking.get(Constants.MAIN_URL + "items/" + id)
                 .setPriority(Priority.HIGH)
                 .build()
                 .getAsObjectList(Items.class, new ParsedRequestListener<ArrayList<Items>>() {
@@ -122,9 +125,27 @@ public class HomeNetwork {
                 });
     }
 
+    public void getMeasurement(MainNetworkInterface mainNetworkInterface) {
+        AndroidNetworking.get(Constants.MAIN_URL + "measures")
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsObjectList(Measure.class, new ParsedRequestListener<ArrayList<Measure>>() {
+
+                    @Override
+                    public void onResponse(ArrayList<Measure> response) {
+                        mainNetworkInterface.onMeasureReceived(response);
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        mainNetworkInterface.onError(anError.getMessage());
+                    }
+                });
+    }
+
     /*Post section*/
-    public void post(DataEntryInterface dataEntryInterface, JSONObject request,String urlExtension){
-        AndroidNetworking.post("http://192.168.1.2:3010/"+urlExtension)
+    public void post(DataEntryInterface dataEntryInterface, JSONObject request, String urlExtension) {
+        AndroidNetworking.post(Constants.MAIN_URL + urlExtension)
                 .addJSONObjectBody(request)
                 .setPriority(Priority.HIGH)
                 .build()

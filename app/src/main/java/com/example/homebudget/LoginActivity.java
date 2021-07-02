@@ -23,6 +23,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkInte
 
     private Spinner drpdown;
     private User selectedUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,15 +31,15 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkInte
         Button loginbtn = findViewById(R.id.login_btn);
         drpdown = findViewById(R.id.login_users);
         loginbtn.setOnClickListener(v -> {
-            new PreferencesUtil(LoginActivity.this).setPreference(Constants.LOGIN_USER,selectedUser.getPersonId());
-            new PreferencesUtil(LoginActivity.this).setPreference(Constants.USER_NAME,selectedUser.getUserName());
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+            new PreferencesUtil(LoginActivity.this).setPreference(Constants.LOGIN_USER, selectedUser.getPersonId());
+            new PreferencesUtil(LoginActivity.this).setPreference(Constants.USER_NAME, selectedUser.getUserName());
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         });
-        if (new PreferencesUtil(LoginActivity.this).getPreference(Constants.LOGIN_USER)!=null){
-            startActivity(new Intent(LoginActivity.this,MainActivity.class));
+        if (new PreferencesUtil(LoginActivity.this).getPreference(Constants.LOGIN_USER) != null) {
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
-        }else{
+        } else {
             HomeNetwork.getInstance().getUsers(this);
         }
 
@@ -47,9 +48,9 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkInte
     @Override
     public void onReceived(ArrayList<User> users) {
         String[] userArray = new String[users.size()];
-        int count=0;
-        for (User user: users) {
-            userArray[count++]= user.getUserName();
+        int count = 0;
+        for (User user : users) {
+            userArray[count++] = user.getUserName();
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, userArray);
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements LoginNetworkInte
         drpdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedUser=users.get(position);
+                selectedUser = users.get(position);
             }
 
             @Override
